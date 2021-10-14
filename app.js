@@ -1,5 +1,7 @@
 const NAMES = ["Nick", "Lucas", "Johnny", "Kiril", "Nirmohi", "Martin", "Yann"];
 
+const DROP_RATE = 100; // Rate/speed at which the players will drop
+
 const AVATAR_URLS = {
   Nick: "https://avatars.githubusercontent.com/u/7636254?v=4",
   Lucas: "https://avatars.githubusercontent.com/u/26128560?v=4",
@@ -82,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let completed_players = [];
 
   const movePlayer = (player) => {
-    player.bottom -= 20;
+    player.bottom -= DROP_RATE;
     player.left = getPlayerLeft(player);
     let visual = player.visual;
     visual.style.bottom = player.bottom + "px";
