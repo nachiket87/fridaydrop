@@ -1,6 +1,33 @@
-const NAMES = ["Nick", "Lucas", "Johnny", "Kiril", "Nirmohi", "Martin", "Yann"];
+const all_names = [
+  "Nick",
+  "Lucas",
+  "Johnny",
+  "Kiril",
+  "Nirmohi",
+  "Martin",
+  "Yann",
+  "Sam",
+  "Pawan",
+  "Nachiket",
+];
 
-const DROP_RATE = 100; // Rate/speed at which the players will drop
+const shuffle_names = (names) => {
+  let currentIndex = names.length;
+
+  while (currentIndex != 0) {
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [names[currentIndex], names[randomIndex]] = [
+      names[randomIndex],
+      names[currentIndex],
+    ];
+  }
+
+  return names;
+};
+
+const NAMES = shuffle_names(all_names);
 
 const AVATAR_URLS = {
   Nick: "https://avatars.githubusercontent.com/u/7636254?v=4",
@@ -10,10 +37,14 @@ const AVATAR_URLS = {
   Nirmohi: "https://avatars.githubusercontent.com/u/12480324?v=4",
   Martin: "https://avatars.githubusercontent.com/u/19353631?v=4",
   Yann: "https://avatars.githubusercontent.com/u/6068943?v=4",
+  Vention: "https://avatars.githubusercontent.com/u/19786058?v=4",
 };
 document.addEventListener("DOMContentLoaded", () => {
   const mainGrid = document.getElementById("grid");
+  const halfInnerHeight = Math.round(window.innerHeight / 2);
+  const halfInnerWidth = Math.round(window.innerWidth / 2);
   let players = [];
+  let completed_players = [];
   mainGrid.style.width = window.innerWidth;
   mainGrid.style.height = window.innerHeight;
 
@@ -29,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const visual = this.visual;
       const img = this.img;
 
-      img.src = AVATAR_URLS[this.name];
+      img.src = AVATAR_URLS[this.name] || AVATAR_URLS["Vention"];
       img.classList.add("avatar");
 
       visual.classList.add("player");
@@ -43,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   players = NAMES.map((name, index) => {
-    left = index + 1;
+    let left = index + 1;
     if (index % 2 === 0) {
       left = -left;
     }
@@ -65,14 +96,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const getPlayerLeft = (player) => {
     if (player.direction === "left") {
-      if (player.left < -(window.innerWidth / 2)) {
+      if (player.left < -halfInnerWidth + 20) {
         player.direction = "right";
         return player.left + Math.floor(Math.random() * 50 + 50);
       } else {
         return player.left - Math.floor(Math.random() * 50 + 50);
       }
     } else {
-      if (player.left > 600) {
+      if (player.left > halfInnerWidth - 100) {
         player.direction = "left";
         return player.left - Math.floor(Math.random() * 50 + 50);
       } else {
@@ -81,15 +112,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  let completed_players = [];
 
   const movePlayer = (player) => {
-    player.bottom -= DROP_RATE;
+    player.bottom -= Math.floor(Math.random() * 10 + 10);
     player.left = getPlayerLeft(player);
     let visual = player.visual;
     visual.style.bottom = player.bottom + "px";
     visual.style.left = player.left + "px";
-    if (player.bottom < -Math.round(window.innerHeight / 2)) {
+    if (player.bottom < -(halfInnerHeight - 5)) {
       clearInterval(player.interval);
       completed_players.push(player);
       if (completed_players.length === NAMES.length) {
