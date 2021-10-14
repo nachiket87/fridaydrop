@@ -1,3 +1,7 @@
+* {
+  font-family: "Roboto", sans-serif;
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -11,24 +15,36 @@
 }
 
 .player {
-  height: 55px;
-  width: 100px;
+  padding: 20px;
+  color: black;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
-  background-color: orange;
+  border: 1px solid #1c344f;
+  background: white;
   position: absolute;
 }
 
 .vl {
   position: absolute;
-  border-left: 6px solid green;
+  top: 0px;
+  border-left: 6px solid #1c344f;
   height: 500px;
 }
 
 .avatar {
+  margin-left: 10px;
   width: 25px;
   height: 25px;
   border-radius: 50%;
+}
+
+.notice {
+  position: absolute;
+  padding: 10px;
+  background: #1c344f;
+  color: white;
+  top: 50px;
+  font-weight: bold;
+  font-size: 24px;
 }

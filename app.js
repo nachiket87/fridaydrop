@@ -28,6 +28,7 @@ const shuffle_names = (names) => {
 };
 
 const NAMES = shuffle_names(all_names);
+const DROP_SIZE = 20;
 
 const AVATAR_URLS = {
   Nick: "https://avatars.githubusercontent.com/u/7636254?v=4",
@@ -38,6 +39,8 @@ const AVATAR_URLS = {
   Martin: "https://avatars.githubusercontent.com/u/19353631?v=4",
   Yann: "https://avatars.githubusercontent.com/u/6068943?v=4",
   Vention: "https://avatars.githubusercontent.com/u/19786058?v=4",
+  Sam: "https://avatars.githubusercontent.com/u/59837266?v=4",
+  Nachiket: "https://avatars.githubusercontent.com/u/33430835?v=4",
 };
 document.addEventListener("DOMContentLoaded", () => {
   const mainGrid = document.getElementById("grid");
@@ -91,30 +94,36 @@ document.addEventListener("DOMContentLoaded", () => {
         return 0;
       }
     });
-    alert(`${players[0].name} won the game`);
+    const notice = document.createElement("div");
+    notice.innerText = `${players[0].name} won the game`;
+    notice.classList.add("notice");
+    const mainGrid = document.getElementById("container");
+    mainGrid.appendChild(notice);
+
+    //alert(`${players[0].name} won the game`);
   };
 
   const getPlayerLeft = (player) => {
+    const randomNumberBetween100And50 = Math.floor(Math.random() * 20 + 20);
     if (player.direction === "left") {
-      if (player.left < -halfInnerWidth + 20) {
+      if (player.left < -halfInnerWidth + 50) {
         player.direction = "right";
-        return player.left + Math.floor(Math.random() * 50 + 50);
+        return player.left + randomNumberBetween100And50;
       } else {
-        return player.left - Math.floor(Math.random() * 50 + 50);
+        return player.left - randomNumberBetween100And50;
       }
     } else {
-      if (player.left > halfInnerWidth - 100) {
+      if (player.left > halfInnerWidth - 180) {
         player.direction = "left";
-        return player.left - Math.floor(Math.random() * 50 + 50);
+        return player.left - randomNumberBetween100And50;
       } else {
-        return player.left + Math.floor(Math.random() * 50 + 50);
+        return player.left + randomNumberBetween100And50;
       }
     }
   };
 
-
   const movePlayer = (player) => {
-    player.bottom -= Math.floor(Math.random() * 10 + 10);
+    player.bottom -= DROP_SIZE;
     player.left = getPlayerLeft(player);
     let visual = player.visual;
     visual.style.bottom = player.bottom + "px";
